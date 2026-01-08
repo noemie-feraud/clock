@@ -1,5 +1,6 @@
 fonction display_hour(time_str):
     afficher time_str dans le terminal en réécrivant la même ligne :
         - retourner au début de la ligne (\r)
-        - écrire la nouvelle heure
+        - écrire "Horloge : " + time_str (si on veut un préfixe fixe)
+        - éviter le retour à la ligne (end="")
         - forcer l’affichage immédiat (flush)

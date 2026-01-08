@@ -1,0 +1,34 @@
+fonction validate_time(t):
+    si t n’est pas un tuple de taille 3:
+        retourner False
+
+    h, m, s = t
+
+    si h, m, s ne sont pas des entiers:
+        retourner False
+
+    si h < 0 ou h > 23:
+        retourner False
+    si m < 0 ou m > 59:
+        retourner False
+    si s < 0 ou s > 59:
+        retourner False
+
+    retourner True
+
+fonction normalize_mode(mode_str):
+    nettoyer mode_str (minuscules, enlever espaces)
+
+    si mode_str correspond à "12" ou "12h":
+        retourner "12h"
+    sinon si mode_str correspond à "24" ou "24h":
+        retourner "24h"
+    sinon:
+        retourner "24h" (valeur par défaut)
+
+
+
+
+
+
+

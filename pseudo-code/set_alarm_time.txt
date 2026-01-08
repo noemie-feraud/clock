@@ -1,0 +1,44 @@
+from models import values 
+
+fonction parse_time_str(time_str):
+    nettoyer time_str (enlever espaces)
+
+    si time_str est vide:
+        retourner None
+
+    découper time_str avec ":" → liste parts
+
+    si parts a 2 éléments:
+        h = convertir parts[0] en entier
+        m = convertir parts[1] en entier
+        s = 0
+        t = (h, m, s)
+
+    sinon si parts a 3 éléments:
+        h = convertir parts[0] en entier
+        m = convertir parts[1] en entier
+        s = convertir parts[2] en entier
+        t = (h, m, s)
+
+    sinon:
+        retourner None
+
+    si validate_time(t) est True:
+        retourner t
+    sinon:
+        retourner None
+
+fonction set_alarm_time():
+    boucle infinie:
+        demander à l’utilisateur une heure d’alarme (HH:MM ou HH:MM:SS) ou "none"
+
+        si l’utilisateur écrit "none" (ou vide):
+            retourner None
+
+        t = parse_time_str(saisie)
+
+        si t n’est pas None:
+            retourner t
+
+        sinon:
+            afficher un message d’erreur (format invalide) et recommencer

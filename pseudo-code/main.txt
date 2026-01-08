@@ -1,0 +1,104 @@
+import time
+import msvcrt
+
+from models import normalize_mode
+from tick_time import tick_time
+from format_time import format_time
+from display_hour import display_hour
+from set_alarm_time import set_alarm_time
+from check_alarm import check_alarm
+from pause_resume import toggle_pause
+
+fonction parse_time_str(time_str):
+    (même logique que parse_time_str de set_alarm_time.py)
+
+fonction ask_command():
+    # objectif : lire une commande sans bloquer l’horloge
+
+    vérifier s’il existe une touche disponible (lecture non bloquante, Windows)
+    
+    si aucune touche n’est disponible:
+        retourner None
+
+    sinon:
+        lire une touche (un seul caractère)
+        mettre la touche en minuscule
+
+        si la touche est dans {"p", "m", "a", "q"}:
+            retourner cette touche
+
+        sinon:
+            ignorer (retourner None)
+
+fonction orchestrator():
+
+    # Affichage fixe (une seule fois)
+    afficher le menu de commandes :
+        p : pause / reprise
+        m : changer le mode (12h / 24h)
+        a : régler l’alarme
+        q : quitter
+
+    afficher une ligne d’information du type :
+        "Horloge en cours... (appuyer sur p/m/a/q)"
+
+    # Initialisation de l’état du programme
+    récupérer l’heure locale du PC (heure réelle) via la bibliothèque time
+    h = heures actuelles
+    m = minutes actuelles
+    s = secondes actuelles
+    current_time = (h, m, s)
+
+    demander le mode d’affichage ("12h" ou "24h") via input
+    mode = normalize_mode(saisie)
+
+    alarm_time = set_alarm_time()   # input géré dans set_alarm_time
+    paused = False
+
+    # Boucle principale (horloge automatique)
+    boucle infinie:
+
+        # Lire une commande (sans bloquer)
+        cmd = ask_command()
+
+        si cmd == "q":
+            afficher "Fin du programme"
+            arrêter la boucle
+
+        si cmd == "p":
+            paused = toggle_pause(paused)
+
+        si cmd == "m":
+            # ici, on accepte un input ponctuel :
+            # pendant cette saisie, l’horloge est momentanément “en attente”
+            demander "Nouveau mode (12h/24h)" via input
+            mode = normalize_mode(saisie)
+
+        si cmd == "a":
+            # input ponctuel géré dans set_alarm_time
+            alarm_time = set_alarm_time()
+
+        # Mise à jour de l’heure simulée
+        si paused == False:
+            current_time = tick_time(current_time)
+
+        # Préparer l’affichage
+        time_str = format_time(current_time, mode)
+
+        si paused == True:
+            ajouter " [PAUSE]" à time_str
+
+        # Afficher l’heure (mise à jour d’une seule ligne)
+        display_hour(time_str)
+
+        # Vérifier l’alarme
+        si check_alarm(current_time, alarm_time) == True:
+            afficher " ALARME !!!!!!!!!!!!!"
+            alarm_time = None  # éviter répétition
+
+        # Rythme d’exécution
+        attendre 1 seconde (time.sleep(1))
+
+
+fonction main():
+    lancer orchestrator()

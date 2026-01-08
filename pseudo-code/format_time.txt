@@ -1,0 +1,17 @@
+fonction format_time(t, mode):
+    h, m, s = t
+
+    si mode == "24h":
+        retourner "HH:MM:SS" (avec 2 chiffres pour chaque valeur)
+
+    sinon (mode == "12h"):
+        si h < 12:
+            suffixe = "AM"
+        sinon:
+            suffixe = "PM"
+
+        h12 = h modulo 12
+        si h12 == 0:
+            h12 = 12
+
+        retourner "HH:MM:SS AM/PM" (avec 2 chiffres + suffixe)

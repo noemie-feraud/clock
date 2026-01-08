@@ -1,0 +1,2 @@
+fonction toggle_pause(paused):
+    retourner l’inverse de paused

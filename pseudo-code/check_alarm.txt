@@ -1,0 +1,9 @@
+fonction check_alarm(current_time, alarm_time):
+    si alarm_time est None:
+        retourner False
+
+    si current_time == alarm_time:
+        retourner True
+    sinon:
+        retourner False
+

@@ -1,0 +1,17 @@
+fonction tick_time(t):
+    h, m, s = t
+
+    s = s + 1
+
+    si s == 60:
+        s = 0
+        m = m + 1
+
+    si m == 60:
+        m = 0
+        h = h + 1
+
+    si h == 24:
+        h = 0
+
+    retourner (h, m, s)

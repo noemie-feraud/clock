@@ -1,0 +1,5 @@
+fonction display_hour(time_str):
+    afficher time_str dans le terminal en réécrivant la même ligne :
+        - retourner au début de la ligne (\r)
+        - écrire la nouvelle heure
+        - forcer l’affichage immédiat (flush)

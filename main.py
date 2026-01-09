@@ -8,10 +8,11 @@ from format_time import format_time
 from display_hour import display_hour
 from set_alarm_time import set_alarm_time
 from check_alarm import check_alarm
+from alarm_sound import init_sound, start_alarm_sound, stop_alarm_sound
 from pause_resume import toggle_pause
 
 
-def ask_command():
+def ask_command(): 
     """
     Lecture de touche non bloquante (Windows).
     Retourne: "p", "m", "a", "q" ou None.
@@ -56,6 +57,7 @@ def clear_terminal():
 def orchestrator():
     # Interface fixe
     print_header()
+    init_sound()
 
     # Heure réelle au lancement
     now = time.localtime()
@@ -80,12 +82,14 @@ def orchestrator():
         cmd = ask_command()
 
         if cmd == "q":
+            stop_alarm_sound()
             print("\nFin du programme.")
             break
 
         # si l'alarme sonne, 'p' sert à l'arrêter (et on ne touche pas au pause)
         if alarm_ringing and cmd == "p":
             alarm_ringing = False
+            stop_alarm_sound()
             clear_terminal()
             print_header()
             cmd = None  # évite d'activer aussi pause/reprise
@@ -114,6 +118,7 @@ def orchestrator():
         if (not alarm_ringing) and check_alarm(current_time, alarm_time):
             alarm_ringing = True
             alarm_time = None  # plus d'alarme programmée après déclenchement
+            start_alarm_sound()
 
         # Construire la ligne d'affichage
         clock_str = format_time(current_time, mode)

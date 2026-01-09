@@ -5,7 +5,7 @@ def parse_time_str(time_str):
     Convertir une heure sous forme de texte en tuple (h, m, s).
     Formats acceptés : 
     - "HH:MM"
-    - "HH:HH:SS"
+    - "HH:MM:SS"
     Retourne None si le format est invalide
     """
     # On nettoie la chaine

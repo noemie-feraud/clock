@@ -14,19 +14,19 @@ from pause_resume import toggle_pause
 
 def ask_command(): 
     """
-    Lecture de touche non bloquante (Windows).
-    Retourne: "p", "m", "a", "q" ou None.
+    Non-blocking key reading (Windows).
+    Return: "p", "m", "a", "s" or None.
     """
     if msvcrt.kbhit():
         key = msvcrt.getwch().lower()
-        if key in ("p", "m", "a", "q"):
+        if key in ("p", "m", "a", "s"):
             return key
     return None
 
 
 def format_alarm_display(alarm_time):
     """
-    Affichage lisible de l'alarme.
+    Readable display of the alarm.
     """
     if alarm_time is None:
         return "--:--:--"
@@ -36,18 +36,18 @@ def format_alarm_display(alarm_time):
 
 def print_header():
     """
-    Affiche l'interface fixe (une seule fois).
+    Display the fixed interface (once only).
     """
     print()
     print("╔════════════════════════════════════════════════════╗")
-    print("║                    HORLOGE MAMIE                   ║")
+    print("║                   GRANDMA'S CLOCK                  ║")
     print("╠════════════════════════════════════════════════════╣")
-    print("║  p : pause / reprise                               ║")
-    print("║  m : changer mode (12h / 24h)  | défaut = 24h      ║")
-    print("║  a : régler l'alarme           | défaut = aucune   ║")
-    print("║  q : quitter                                       ║")
+    print("║  p : pause / resume                                ║")
+    print("║  m : switch mode (12h / 24h)  | default = 24h      ║")
+    print("║  a : set the alarm            | default = none     ║")
+    print("║  s : stop                                          ║")
     print("╚════════════════════════════════════════════════════╝")
-    print()  # ligne vide avant la ligne qui s'actualise
+    print()  # empty line before the line that updates
 
 
 def clear_terminal():
@@ -55,84 +55,84 @@ def clear_terminal():
 
 
 def orchestrator():
-    # Interface fixe
+    # Fixed interface
     print_header()
     init_sound()
 
-    # Heure réelle au lancement
+    # actual time at te launch
     now = time.localtime()
     current_time = (now.tm_hour, now.tm_min, now.tm_sec)
 
-    # Mode par défaut
+    # default mode
     mode = "24h"
 
-    # Pas d'alarme au lancement
+    # no alarm at launch
     alarm_time = None
 
     paused = False
 
-    # état "alarme en cours"
+    # status 'alar in progress'
     alarm_ringing = False
 
-    # compteur pour petit effet clignotant
+    # counter for small flashing effect
     tick = 0
 
     while True:
         tick += 1
         cmd = ask_command()
 
-        if cmd == "q":
+        if cmd == "s":
             stop_alarm_sound()
-            print("\nFin du programme.")
+            print("\nEnd of grandma’s clock.")
             break
 
-        # si l'alarme sonne, 'p' sert à l'arrêter (et on ne touche pas au pause)
+        # if the alarm sounds, 'p' is used to stop it (and we do not touch the pause)
         if alarm_ringing and cmd == "p":
             alarm_ringing = False
             stop_alarm_sound()
             clear_terminal()
             print_header()
-            cmd = None  # évite d'activer aussi pause/reprise
+            cmd = None  # avoids also activating pause/resume
 
         if cmd == "p":
             paused = toggle_pause(paused)
 
         if cmd == "m":
-            # On passe à la ligne pour ne pas casser l'affichage
-            mode_input = input("\nNouveau mode (12h / 24h) : ")
+            # We move to the line to avoid breaking the display
+            mode_input = input("\nNew mode (12h / 24h) : ")
             mode = normalize_mode(mode_input)
             clear_terminal()
             print_header()
 
         if cmd == "a":
-            # Saisie alarme + nettoyage terminal 
+            # Alarm input + terminal cleaning 
             alarm_time = set_alarm_time()
             clear_terminal()
             print_header()
 
-        # Avancer l'heure simulée
+        # Advance the simulated time
         if not paused:
             current_time = tick_time(current_time)
 
-        # déclenchement sans print() (sinon ça crée des lignes)
+        # trigger without print() (otherwise it creates lines)
         if (not alarm_ringing) and check_alarm(current_time, alarm_time):
             alarm_ringing = True
-            alarm_time = None  # plus d'alarme programmée après déclenchement
+            alarm_time = None  # no more programmed alarm after triggering
             start_alarm_sound()
 
-        # Construire la ligne d'affichage
+        # Build the display line
         clock_str = format_time(current_time, mode)
         alarm_str = format_alarm_display(alarm_time)
 
-        # état prioritaire ALARME si ça sonne
-        state_str = "ALARME" if alarm_ringing else ("PAUSE" if paused else "ACTIF")
+        # priority status ALARM if it rings
+        state_str = "ALARM" if alarm_ringing else ("PAUSE" if paused else "ACTIVE")
 
-        line = f"{clock_str} | Mode : {mode} | Alarme : {alarm_str} | Etat : {state_str}"
+        line = f"{clock_str} | Mode : {mode} | Alarm : {alarm_str} | Status : {state_str}"
 
-        # message d'alarme visible sur la MÊME ligne + commande stop
+        # visible alarm message on the SAME line + stop command
         if alarm_ringing:
-            flash = "!! ALARME !!" if (tick % 2 == 0) else "  ALARME   "
-            line += f"   {flash} (p pour arrêter)"
+            flash = "!! ALARM !!" if (tick % 2 == 0) else "  ALARM   "
+            line += f"   {flash} (p to stop the alarm)"
 
         display_hour(line)
 

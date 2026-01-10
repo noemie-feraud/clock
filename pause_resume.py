@@ -1,11 +1,11 @@
 def toggle_pause(paused):
     """
-    Inverse l'état de pause de l'horloge.
+    Toggles the clock's pause state.
 
-    Paramètre :
-    - paused : booléen indiquant si l'horloge est en pause
+    Parameter:
+    - paused: boolean indicating whether the clock is paused
 
-    Retour :
-    - booléen inverse de paused
+    Returns:
+    - boolean inverse of paused
     """
     return not paused

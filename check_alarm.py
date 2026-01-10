@@ -1,6 +1,6 @@
 def check_alarm (current_time, alarm_time): 
     """
-    Vérification de la valeur de actuelle par rapport à la valeur de l'alarme
+    Checking the current time value against the alarm value
     """
     
     if alarm_time == None:

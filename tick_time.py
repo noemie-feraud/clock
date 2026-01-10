@@ -1,30 +1,30 @@
 def tick_time(t):
     """
-    Fait avancer une heure simulée d'une seconde.
+    Advances a simulated time by one second.
 
-    Paramètre :
-    - t : tuple (h, m, s)
+    Parameter:
+    - t: tuple (h, m, s)
 
-    Retour :
-    - nouveau tuple (h, m, s)
+    Returns:
+    - new tuple (h, m, s)
     """
 
     h, m, s = t
 
-    # Ajouter une seconde
+    # Add one second
     s = s + 1
 
-    # Gestion du dépassement des secondes
+    # Handle seconds overflow
     if s == 60:
         s = 0
         m = m + 1
 
-    # Gestion du dépassement des minutes
+    # Handle minutes overflow
     if m == 60:
         m = 0
         h = h + 1
 
-    # Gestion du dépassement des heures
+    # Hangle hours overflow
     if h == 24:
         h = 0
 

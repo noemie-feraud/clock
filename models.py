@@ -1,20 +1,20 @@
 def validate_time(t):
     """
-    Vérifie qu'un tuple (h, m, s) représente une heure valide.
-    Retourne True si valide, False sinon.
+    Verify that a tuple (h, m, s) represents a valid time.
+    Returns True if valid, False otherwise.
     """
 
-    # Vérifier que t est bien un tuple de taille 3
+    # Check that t is indeed a tuple of size 3
     if not isinstance(t, tuple) or len(t) != 3:
         return False
 
     h, m, s = t
 
-    # Vérifier que h, m, s sont des entiers
+    # Check that h, m, s are integers
     if not isinstance(h, int) or not isinstance(m, int) or not isinstance(s, int):
         return False
 
-    # Vérifier les bornes des heures, minutes et secondes
+    # Check the terminals of hours, minutes and seconds
     if h < 0 or h > 23:
         return False
     
@@ -28,11 +28,11 @@ def validate_time(t):
 
 def normalize_mode(mode_str):
     """
-    Normalise la saisie du mode d'affichage.
-    Retourne '12h' ou '24h'. Par défaut : '24h'.
+    Normalizes the display mode input.
+    Returns '12h' or '24h'. By default: '24h'.
     """
 
-    # Nettoyer la chaîne (minuscules + suppression des espaces)
+    # Clean the chain (lowercase + whitespace removal)
     mode_str = mode_str.strip().lower()
 
     if mode_str == "12" or mode_str == "12h":
@@ -41,6 +41,6 @@ def normalize_mode(mode_str):
     if mode_str == "24" or mode_str == "24h":
         return "24h"
 
-    # Valeur par défaut
+    # Default value
     return "24h"
   

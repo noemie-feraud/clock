@@ -47,15 +47,16 @@ def parse_time_str(time_str):
     
 def set_alarm_time():
     """
-    Demande à l'utilisateur une heure d’alarme (HH:MM ou HH:MM:SS) ou "none".
-    Retourne :
-    - un tuple (h, m, s) si l'heure est valide
-    - None si l’utilisateur ne veut pas d’alarme
+    Prompts the user for an alarm time (HH:MM or HH:MM:SS) or "none".
+
+    Returns:
+    - a tuple (h, m, s) if the time is valid
+    - None if the user does not want an alarm
     """
     while True:
-        user_input = input("Heure d'alarme (HH:MM ou HH:MM:SS) ou 'none' : ").strip().lower()
+        user_input = input("Alarm time (HH:MM or HH:MM:SS) or 'none : ").strip().lower()
 
-        # Si on a "none" ou vide alors il n'y a pas d'alarme
+        # If the input is 'none' or empty, then there is no alarm.
         if user_input == "" or user_input == "none":
             return None
 
@@ -64,4 +65,4 @@ def set_alarm_time():
         if t is not None:
             return t
 
-        print("Format invalide. Exemples: 07:30 | 07:30:00 | none")
+        print("Invalid format. Examples: 07:30 | 07:30:00 | none")

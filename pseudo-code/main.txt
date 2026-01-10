@@ -8,6 +8,7 @@ from format_time import format_time
 from display_hour import display_hour
 from set_alarm_time import set_alarm_time
 from check_alarm import check_alarm
+from alarm_sound import init_sound, start_alarm_sound, stop_alarm_sound
 from pause_resume import toggle_pause
 
 
@@ -42,7 +43,7 @@ fonction print_header():
         p : pause / reprise (et stop alarme si elle sonne)
         m : changer le mode (12h / 24h)
         a : régler l’alarme
-        q : quitter
+        s : quitter
 
 
 fonction clear_terminal():
@@ -55,6 +56,9 @@ fonction orchestrator():
 
     # Affichage fixe (une seule fois)
     print_header()
+
+    # Initialiser le système de son
+    init_sound()
 
     # Initialisation de l’état du programme
     récupérer l’heure locale du PC via time.localtime()
@@ -74,13 +78,15 @@ fonction orchestrator():
         # Lire une commande (sans bloquer)
         cmd = ask_command()
 
-        si cmd == "q":
+        si cmd == "s":
+            stop_alarm_sound()
             afficher "Fin du programme"
             arrêter la boucle
 
         # Si l’alarme sonne : p sert à l’arrêter (prioritaire)
         si alarm_ringing == True ET cmd == "p":
             alarm_ringing = False
+            stop_alarm_sound()
             clear_terminal()
             print_header()
             cmd = None  # éviter d’activer pause/reprise en même temps
@@ -105,6 +111,7 @@ fonction orchestrator():
         si alarm_ringing == False ET check_alarm(current_time, alarm_time) == True:
             alarm_ringing = True
             alarm_time = None   # éviter répétition (alarme programmée supprimée)
+            start_alarm_sound()
 
         # Préparer l’affichage
         clock_str = format_time(current_time, mode)
@@ -122,9 +129,9 @@ fonction orchestrator():
         # Message d’alarme visible sur la même ligne + commande d’arrêt
         si alarm_ringing == True:
             si tick est pair:
-                ajouter "   !! ALARME !! (p pour arrêter)" à line
+                ajouter "   !! ALARME !! (p pour arrêter l'alarme)" à line
             sinon:
-                ajouter "    ALARME    (p pour arrêter)" à line
+                ajouter "    ALARME    (p pour arrêter l'alarme)" à line
 
         # Afficher la ligne (mise à jour d’une seule ligne)
         display_hour(line)

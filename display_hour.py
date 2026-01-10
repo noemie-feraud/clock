@@ -1,11 +1,11 @@
 def display_hour(time_str):
     """
-    Affiche l'heure dans le terminal en mettant à jour
-    une seule ligne (sans réécrire tout l'écran).
+    Displays the time in the terminal by updating
+    a single line (without rewriting the entire screen).
     """
 
-    # \r permet de revenir au début de la ligne
-    # end="" évite le retour à la ligne
-    # flush=True force l'affichage immédiat
+    # \r allows to return to the beginning of the line
+    # end="" avoids the line break
+    # flush=True forces the immediate display
     print(f"\rHorloge : {time_str}    ", end="", flush=True)
 

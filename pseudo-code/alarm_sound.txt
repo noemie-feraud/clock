@@ -1,0 +1,11 @@
+import pygame
+
+fonction init_sound():
+    initialiser le module mixer de pygame
+
+fonction start_alarm_sound():
+    charger le fichier musique "alarm.mp3"
+    jouer la musique en boucle infinie (-1)
+
+fonction stop_alarm_sound():
+    arrêter la lecture de la musique

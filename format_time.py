@@ -1,16 +1,16 @@
 def format_time(t, mode):
     """
-    Transforme une heure sous forme de tuple (h, m, s)
-    en chaîne de caractères selon le mode d'affichage.
+    Transform an hour into a tuple (h, m, s)
+    in a string according to the display mode.
     """
 
     h, m, s = t
 
-    # Mode 24h
+    # 24h mode
     if mode == "24h":
         return f"{h:02d}:{m:02d}:{s:02d}"
 
-    # Mode 12h
+    # 12h mode
     else:
         if h < 12:
             suffix = "AM"

@@ -1,61 +1,77 @@
-# Grandma Clock 
+# Horloge de Mamie 
 
-A robust, terminal-based digital clock written in Python. It simulates time ticking, handles alarms with sound, and offers a user-friendly interface.
+Ce projet consiste à développer une horloge en terminal qui :
 
-## Features
+* **affiche l’heure** au format `hh:mm:ss` et s’actualise **toutes les secondes** jusqu’à l’arrêt du programme, 
+* **permet de régler/afficher une heure** à partir d’un tuple `(heures, minutes, secondes)` via une fonction dédiée, 
+* **permet de régler une alarme** (tuple) et d’afficher un message lorsque l’heure courante correspond à l’alarme. 
 
-* **Real-time Display:** Updates every second in `HH:MM:SS` format.
-* **Alarm System:** Set an alarm time. Visual notifications and **audio playback** (MP3) when triggered.
-* **Custom Modes:** Switch between **12h (AM/PM)** and **24h** formats.
-* **Pause/Resume:** Temporarily stop the clock update mechanism.
-* **Non-blocking Input:** Interacts with the user without freezing the time display (Windows `msvcrt`).
+### Bonus implémentés :
+
+* affichage `12h / 24h` avec `AM/PM` en mode 12h,
+* **pause** de l’horloge (suspension de l’actualisation jusqu’à reprise). 
+
+Notre version ajoute aussi une interface plus ergonomique en terminal (menu fixe + une seule ligne d’état mise à jour) et un **son d’alarme**.
 
 ---
 
-## Getting Started
+## Utilisation
 
-### Prerequisites
+### Lancement du programme 
 
-* **OS:** Windows (required for non-blocking key reads).
-* **Python 3.x**
-* **Dependencies:** `pygame` (for audio).
-
-### Installation
-
-1.  Clone the repository or download the files.
-2.  Install the required audio library:
-    ```bash
-    pip install pygame
-    ```
-3.  Ensure `alarm.mp3` is in the same directory as `main.py`.
+```
+python main.py
+```
 
 ### Commandes :
 ```
-p : pause / resume (if alarm rings : p stop it and cut the sound)
+p : pause / reprise (si l’alarme sonne : p l’arrête et coupe le son)
 
-m : switch mode (12h / 24h)
+m : changer le mode (12h / 24h)
 
-a : set the alarm (HH:MM or HH:MM:SS, or none)
+a : régler l’alarme (HH:MM ou HH:MM:SS, ou none)
 
-s : stop
+s : quitter
 ```
 
+### Prérequis 
+
+* **OS:** Windows (requis pour la lecture non bloquante de touche via `msvcrt`).
+* **Python 3.x**
+* **Dependances:** `pygame` (pour l'audio).
+
+### Installation:
+
+1.  Cloner le repertoire 
+2.  Installer la librairie audio requise :
+    ```bash
+    pip install pygame
+    ```
+3.  Etre sûr que le fichier `alarm.mp3` est au même niveau que `main.py`.
 
 ### Structure du projet : 
-.
-├──  alarm.mp3           # Audio file for the alarm
-├──  alarm_sound.py      # Audio management (Pygame)
-├──  check_alarm.py      # Logic to trigger the alarm
-├──  display_hour.py     # Refreshes the terminal line
-├──  format_time.py      # Handles 12h/24h formatting
-├──  main.py             # Entry point / Orchestrator
-├──  models.py           # Data validation & logic
-├──  pause_resume.py     # Toggles pause state
-├──  set_alarm_time.py   # User input parsing
-└──  tick_time.py        # Simulates time passing (1s)
 
----
+* **main.py** : orchestration, états, commandes et affichage
 
-## [![Made by](https://img.shields.io/badge/R%C3%89ALIS%C3%89-PAR-orange?style=for-the-badge)](https://forthebadge.com)
+* **display_hour.py** : mise à jour d’une seule ligne d’affichage
+
+* **tick_time.py** : incrément du temps simulé (1 seconde)
+
+* **format_time.py** : formatage 12h/24h (+ AM/PM)
+
+* **models.py** : validation d’heure + normalisation du mode
+
+* **set_alarm_time.py** : saisie/parsing de l’alarme
+
+* **check_alarm.py** : déclenchement de l’alarme (comparaison)
+
+* **pause_resume.py** : gestion pause/reprise
+
+* **alarm_sound.py** : gestion du son (pygame)
+
+* **alarm.mp3** : son d’alarme
+
+
+## [![Réalisé par](https://img.shields.io/badge/R%C3%89ALIS%C3%89-PAR-orange?style=for-the-badge)](https://forthebadge.com)
 
 **Antuat Abdallah** | **Ahamada Assmine** | **Noémie Feraud**
